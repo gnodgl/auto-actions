@@ -1,0 +1,28 @@
+name: 'auto_sign_v2ex'
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '3 0 * * *'
+
+jobs:
+  v2ex_sign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v2
+      - name: 'Set python'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: 'Install dependencies'
+        run: python -m pip install --upgrade requests
+
+      - name: 'v2ex_sign'
+        run: python run.py v2ex
+        env:
+          V2EXAPI: ${{ secrets.V2EXAPI }}
+          QMSGAPI: ${{ secrets.QMSGAPI }}

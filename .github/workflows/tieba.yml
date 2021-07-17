@@ -1,0 +1,28 @@
+name: 'auto_sign_tieba'
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 23 * * *'
+
+jobs:
+  tieba_sign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v2
+      - name: 'Set python'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: 'Install dependencies'
+        run: python -m pip install --upgrade requests
+
+      - name: 'tieba_sign'
+        run: python run.py tieba
+        env:
+          BDUSS: ${{ secrets.BDUSS }}
+          QMSGAPI: ${{ secrets.QMSGAPI }}
