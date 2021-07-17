@@ -35,7 +35,7 @@ MSG = now()+' V2EX签到\n'
 # 定义session
 def makesession():
     # 环境变量获取cookies
-    cookies_str = os.environ["V2EXAPI"]
+    cookies_str = os.environ["V2EX_COOKIES"]
     cookies = cookieParseV2ex(cookies_str)
     session = requests.session()
     session.headers.update(HEADERS)
