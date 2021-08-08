@@ -18,6 +18,7 @@ def signin(session, url):
         with session.post(attendance_url, data) as res:
             r = re.compile(r'获得了\d+魔力值')
             r1 = re.compile(r'重复')
+            print(res.text)
             if r.search(res.text):
                 tip = '签到成功'
             elif r1.search(res.text):
