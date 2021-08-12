@@ -10,8 +10,8 @@ from auto_sign.utility.function import cookieParse
 
 def generateHeader(url):
     header = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
-        'Accept-Language': 'zh-CN',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36',
+        'Accept-Language': 'zh-CN,zh;q=0.9',
         'Referer': url
     }
     return header
