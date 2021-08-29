@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import configparser
 import os
 import re
 
@@ -172,7 +173,15 @@ def client_sign(bduss, tbs, fid, kw):
 
 
 def main():
-    b = os.environ['BDUSS'].split('#')
+    try:
+    # COOKIE JSON 格式放入 github 仓库 Secrets中
+        b = os.environ['BDUSS'].split('#')
+    except:
+    # COOKIE DICT 格式在此填写 ，此处会明文暴露 ，不建议在此填写
+        config_obj = configparser.RawConfigParser()
+        config_obj.read('config.ini')
+        b = config_obj['TIEBA']['bduss'].split('#')
+    # b = os.environ['BDUSS'].split('#')
     for n, i in enumerate(b):
         logger.info("开始签到第" + str(n) + "个用户")
         tbs = get_tbs(i)

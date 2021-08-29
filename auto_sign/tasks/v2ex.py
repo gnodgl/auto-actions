@@ -1,3 +1,4 @@
+import configparser
 import logging
 import os
 import re
@@ -35,7 +36,15 @@ MSG = now()+' V2EX签到\n'
 # 定义session
 def makesession():
     # 环境变量获取cookies
-    cookies_str = os.environ["V2EX_COOKIES"]
+    try:
+        # COOKIE JSON 格式放入 github 仓库 Secrets中
+        cookies_str = os.environ["V2EX_COOKIES"]
+    except:
+        # COOKIE DICT 格式在此填写 ，此处会明文暴露 ，不建议在此填写
+        config_obj = configparser.RawConfigParser()
+        config_obj.read('config.ini')
+        cookies_str = config_obj['V2EX']['cookie']
+    # cookies_str = os.environ["V2EX_COOKIES"]
     cookies = cookieParseV2ex(cookies_str)
     session = requests.session()
     session.headers.update(HEADERS)

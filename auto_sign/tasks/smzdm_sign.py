@@ -1,3 +1,4 @@
+import configparser
 import logging
 import os
 import re
@@ -34,7 +35,15 @@ MSG = now()+' SMZDM签到\n'
 # 定义session
 def makesession():
     # 环境变量获取cookies
-    cookies = os.environ["SMZDM_COOKIES"]
+    # cookies = os.environ["SMZDM_COOKIES"]
+    try:
+        # COOKIE JSON 格式放入 github 仓库 Secrets中
+        cookies = os.environ["SMZDM_COOKIES"]
+    except:
+        # COOKIE DICT 格式在此填写 ，此处会明文暴露 ，不建议在此填写
+        config_obj = configparser.RawConfigParser()
+        config_obj.read('config.ini')
+        cookies = config_obj['SMZDM']['cookie']
     # cookies = TEST_COOKIE
     session = requests.session()
     session.headers = HEADERS
