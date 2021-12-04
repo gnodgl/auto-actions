@@ -60,7 +60,7 @@ def sendQmsgInfo(msg):
 
 def send_telegram(msg):
     url = 'https://api.telegram.org/bot'
-    url += os.environ["TGBOTAPI"]
+    url += os.environ["TGAPI"]
     url += '/sendMessage'
     data = {'chat_id': os.environ["CHATID"], 'text': msg}
     requests.post(url, data)
