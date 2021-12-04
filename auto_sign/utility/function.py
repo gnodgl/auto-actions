@@ -62,7 +62,7 @@ def send_telegram(msg):
     url = 'https://api.telegram.org/bot'
     url += os.environ["TGAPI"]
     url += '/sendMessage'
-    data = {'chat_id': os.environ["CHATID"], 'text': msg}
+    data = {'chat_id': os.environ["CHATID"], 'text': msg, 'parse_mode': 'html'}
     requests.post(url, data)
 
 

@@ -40,7 +40,7 @@ def generateConfig():
         session.headers.update(header)
         session.cookies.update(config['cookie'])
 
-        yield {'url': config['url'], 'session': session, 'tasks': config['tasks']}
+        yield {'url': config['url'], 'session': session, 'tasks': config['tasks'], 'name': config['name']}
 
 
 if __name__ == '__main__':
