@@ -32,3 +32,5 @@ jobs:
         env:
           CONFIG: ${{ secrets.CONFIG }}
           QMSGAPI: ${{ secrets.QMSGAPI }}
+          TGAPI: ${{ secrets.TGAPI }}
+          CHATID: ${{ secrets.CHATID }}
