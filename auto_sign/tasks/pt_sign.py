@@ -3,7 +3,7 @@ import re
 from json.decoder import JSONDecodeError
 
 from auto_sign.config import generateConfig
-from auto_sign.utility.function import now, nowstamp, sendQmsgInfo
+from auto_sign.utility.function import now, nowstamp, sendQmsgInfo, send_telegram
 
 txt = now()+" PT签到\n"
 
@@ -20,9 +20,9 @@ def signin(session, url):
             r1 = re.compile(r'重复')
             print(res.text)
             if r.search(res.text):
-                tip = '签到成功'
+                tip = ' 签到成功'
             elif r1.search(res.text):
-                tip = '重复签到'
+                tip = ' 重复签到'
             else:
                 tip = 'cookie已过期'
             print(now(), ' 网站：%s' % url, tip)
@@ -36,9 +36,9 @@ def signin(session, url):
             except JSONDecodeError:
                 msg = res.text
             if '连续签到' in msg:
-                tip = '签到成功'
+                tip = ' 签到成功'
             elif '重复刷新' in msg:
-                tip = '重复签到'
+                tip = ' 重复签到'
             else:
                 tip = ' cookie已过期'
             print(now(), ' 网站：%s' % url, tip)
@@ -50,9 +50,9 @@ def signin(session, url):
             r = re.compile(r'已经打卡')
             r1 = re.compile(r'退出')
             if r.search(res.text):
-                tip = '签到成功'
+                tip = ' 签到成功'
             elif r1.search(res.text):
-                tip = '重复签到'
+                tip = ' 重复签到'
             else:
                 tip = ' cookie已过期!'
             print(now(), ' 网站：%s' % url, tip)
@@ -64,9 +64,9 @@ def signin(session, url):
             r = re.compile(r'今天签到您获得\d+点魔力值')
             r1 = re.compile(r'退出')
             if r.search(res.text):
-                tip = '签到成功'
+                tip = ' 签到成功'
             elif r1.search(res.text):
-                tip = '重复签到'
+                tip = ' 重复签到'
             else:
                 tip = ' cookie已过期'
             print(now(), ' 网站：%s' % url, tip)
@@ -79,9 +79,9 @@ def signin(session, url):
             r1 = re.compile(r'请勿重复刷新')
             # print(res.text)
             if r.search(res.text):
-                tip = '签到成功'
+                tip = ' 签到成功'
             elif r1.search(res.text):
-                tip = '重复签到'
+                tip = ' 重复签到'
             else:
                 tip = ' cookie已过期'
             print(now(), ' 网站：%s' % url, tip)
@@ -92,9 +92,9 @@ def signin(session, url):
             r = re.compile(r'请勿重复刷新')
             r1 = re.compile(r'签到已得[\s]*\d+')
             if r.search(res.text):
-                tip = '重复签到'
+                tip = ' 重复签到'
             elif r1.search(res.text):
-                tip = '签到成功'
+                tip = ' 签到成功'
             else:
                 tip = ' cookie已过期'
             print(now(), ' 网站：%s' % url, tip)
@@ -114,11 +114,11 @@ def signin_discuz_dsu(session, url):
         r1 = re.compile(r'已经签到')
         global txt
         if r.search(res.text):
-            txt += '网站：%s' % url + "签到成功 \n"
-            print(now(), ' 网站：%s' % url, "签到成功")
+            txt += '网站：%s' % url + " 签到成功 \n"
+            print(now(), ' 网站：%s' % url, " 签到成功")
         elif r1.search(res.text):
-            txt += '网站：%s' % url + "重复签到 \n"
-            print(now(), ' 网站：%s' % url, "重复签到")
+            txt += '网站：%s' % url + " 重复签到 \n"
+            print(now(), ' 网站：%s' % url, " 重复签到")
         else:
             txt += '网站：%s' % url + " cookie已过期 \n"
             print(now(), ' 网站：%s' % url, res.text)
@@ -132,11 +132,11 @@ def signin_hifi(session, url):
         r1 = re.compile(r'今天已经')
         global txt
         if r.search(res.text):
-            txt += '网站：%s' % url + "签到成功 \n"
-            print(now(), ' 网站：%s' % url, "签到成功")
+            txt += '网站：%s' % url + " 签到成功 \n"
+            print(now(), ' 网站：%s' % url, " 签到成功")
         elif r1.search(res.text):
-            txt += '网站：%s' % url + "重复签到 \n"
-            print(now(), ' 网站：%s' % url, "重复签到")
+            txt += '网站：%s' % url + " 重复签到 \n"
+            print(now(), ' 网站：%s' % url, " 重复签到")
         else:
             txt += '网站：%s' % url + " cookie已过期 \n"
             print(now(), ' 网站：%s' % url, res.text)
@@ -152,7 +152,8 @@ def main():
     # cookie过期发送qq推送信息
     r = re.compile(r'过期')
     if r.search(txt):
-        sendQmsgInfo(txt)
+        # sendQmsgInfo(txt)
+        send_telegram(txt)
 
 
 if __name__ == '__main__':

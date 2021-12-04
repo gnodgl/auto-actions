@@ -58,6 +58,14 @@ def sendQmsgInfo(msg):
     requests.post(url, data)
 
 
+def send_telegram(msg):
+    url = 'https://api.telegram.org/bot'
+    url += os.environ["TGBOTAPI"]
+    url += '/sendMessage'
+    data = {'chat_id': os.environ["CHATID"], 'text': msg}
+    requests.post(url, data)
+
+
 # 使用pushplus发送推送信息
 def send_pushplus(content, title):
     try:
