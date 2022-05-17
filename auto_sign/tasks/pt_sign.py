@@ -72,9 +72,27 @@ def signin(session, url, name):
             print(now(), ' 网站：%s' % url, tip)
             txt += '网站：<a href="%s">%s</a>' % (url, name) + tip + '\n'
     # lemonhd
-    elif url == "https://lemonhd.org" or url == "https://club.hares.top":
+    elif url == "https://lemonhd.org":
         attendance_url = url + '/attendance.php'
         with session.get(attendance_url) as res:
+            r = re.compile(r'已签到')
+            r1 = re.compile(r'请勿重复刷新')
+            # print(res.text)
+            if r.search(res.text) and r1.search(res.text) is None:
+                tip = ' 签到成功'
+            elif r1.search(res.text):
+                tip = ' 重复签到'
+            else:
+                tip = ' cookie已过期'
+            print(now(), ' 网站：%s' % url, tip)
+            txt += '网站：<a href="%s">%s</a>' % (url, name) + tip + '\n'
+    # hares白兔
+    elif url == "https://club.hares.top":
+        attendance_url = url + '/attendance.php'
+        headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        session.headers.update(headers)
+        # print(session.headers)
+        with session.post(attendance_url, json.dumps({"action": "sign"})) as res:
             r = re.compile(r'已签到')
             r1 = re.compile(r'请勿重复刷新')
             # print(res.text)
