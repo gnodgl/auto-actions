@@ -88,17 +88,21 @@ def signin(session, url, name):
             txt += '网站：<a href="%s">%s</a>' % (url, name) + tip + '\n'
     # hares白兔
     elif url == "https://club.hares.top":
-        attendance_url = url + '/attendance.php'
-        headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        attendance_url = url + '/attendance.php?action=sign'
+        headers = {'Accept': 'application/json'}
         session.headers.update(headers)
         # print(session.headers)
-        with session.post(attendance_url, json.dumps({"action": "sign"})) as res:
-            r = re.compile(r'已签到')
-            r1 = re.compile(r'请勿重复刷新')
-            # print(res.text)
-            if r.search(res.text) and r1.search(res.text) is None:
+        with session.get(attendance_url) as res:
+            try:
+                msg = json.loads(res.text.encode('utf-8').decode('unicode-escape')).get('msg')
+            except JSONDecodeError:
+                msg = res.text
+            r = re.compile(r'签到成功')
+            r1 = re.compile(r'已经签到')
+            # print(msg)
+            if r.search(msg) and r1.search(msg) is None:
                 tip = ' 签到成功'
-            elif r1.search(res.text):
+            elif r1.search(msg):
                 tip = ' 重复签到'
             else:
                 tip = ' cookie已过期'
