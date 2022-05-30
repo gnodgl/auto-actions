@@ -113,6 +113,8 @@ def signin(session, url, name):
         with session.get(attendance_url) as res:
             r = re.compile(r'请勿重复刷新')
             r1 = re.compile(r'签到已得[\s]*\d+')
+            if url == "https://www.hddolby.com":
+                print(res.text)
             if r.search(res.text):
                 tip = ' 重复签到'
             elif r1.search(res.text):
