@@ -1,3 +1,4 @@
+import cloudscraper
 import json
 import re
 from json.decoder import JSONDecodeError
@@ -110,10 +111,12 @@ def signin(session, url, name):
             txt += '网站：<a href="%s">%s</a>' % (url, name) + tip + '\n'
     else:
         attendance_url = url + '/attendance.php'
+        # 绕过cf5秒盾
+        session = cloudscraper.create_scraper(session)
         with session.get(attendance_url) as res:
             r = re.compile(r'请勿重复刷新')
             r1 = re.compile(r'签到已得[\s]*\d+')
-            if url == "https://www.hddolby.com":
+            if url == "https://www.hddolby.com" or url == "https://pt.btschool.club":
                 print(res.text)
             if r.search(res.text):
                 tip = ' 重复签到'
