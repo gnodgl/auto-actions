@@ -1,4 +1,3 @@
-import cloudscraper
 import json
 import re
 from json.decoder import JSONDecodeError
@@ -112,7 +111,7 @@ def signin(session, url, name):
     else:
         attendance_url = url + '/attendance.php'
         # 绕过cf5秒盾
-        session = cloudscraper.create_scraper(session)
+        # session = cloudscraper.create_scraper(session)
         with session.get(attendance_url) as res:
             r = re.compile(r'请勿重复刷新')
             r1 = re.compile(r'签到已得[\s]*\d+')
