@@ -150,6 +150,29 @@ def signin_discuz_dsu(session, url, name):
             print(now(), ' 网站：%s' % url, res.text)
 
 
+# 不移之火签到
+def signin_discuz_ksu(session, url, name):
+    attendance_url = url + "/plugin.php?id=k_misign:sign&operation=qiandao"
+    hash_url = url + "/plugin.php?id=k_misign:sign"
+    with session.get(hash_url) as hashurl:
+        h = re.compile(r'name="formhash" value="(.*?)"')
+        formhash = h.search(hashurl.text).group(1)
+    data = {"formhash": formhash, "format": "empty"}
+    with session.post(attendance_url, data) as res:
+        r = re.compile(r'签到成功')
+        r1 = re.compile(r'今日已签')
+        global txt
+        if r.search(res.text):
+            txt += '网站：<a href="%s">%s</a>' % (url, name) + " 签到成功 \n"
+            print(now(), ' 网站：%s' % url, " 签到成功")
+        elif r1.search(res.text):
+            txt += '网站：<a href="%s">%s</a>' % (url, name) + " 重复签到 \n"
+            print(now(), ' 网站：%s' % url, " 重复签到")
+        else:
+            txt += '网站：<a href="%s">%s</a>' % (url, name) + " cookie已过期 \n"
+            print(now(), ' 网站：%s' % url, res.text)
+
+
 # hifi签到
 def signin_hifi(session, url, name):
     attendance_url = url + "/sg_sign.htm"
@@ -175,6 +198,7 @@ def main():
     print(now(), '--其他站开始签到--')
     [signin_discuz_dsu(config['session'], config['url'], config['name']) for config in generateConfig() if 'sign_in_discuz' in config['tasks']]
     [signin_hifi(config['session'], config['url'], config['name']) for config in generateConfig() if 'sign_in_hifi' in config['tasks']]
+    [signin_discuz_ksu(config['session'], config['url'], config['name']) for config in generateConfig() if 'sign_in_discuz_ksu' in config['tasks']]
     # cookie过期发送qq推送信息
     r = re.compile(r'过期')
     r1 = re.compile(r'重复')
