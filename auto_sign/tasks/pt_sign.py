@@ -159,7 +159,8 @@ def signin_discuz_ksu(session, url, name):
         formhash = h.search(hashurl.text).group(1)
     data = {"formhash": formhash, "format": "empty"}
     with session.post(attendance_url, data) as res:
-        r = re.compile(r'签到成功')
+        # print(res.text)
+        r = re.compile(r'CDATA\[\]')
         r1 = re.compile(r'今日已签')
         global txt
         if r.search(res.text):
