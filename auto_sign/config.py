@@ -25,7 +25,7 @@ def generateConfig():
     except:
         # COOKIE DICT 格式在此填写 ，此处会明文暴露 ，不建议在此填写
         config_obj = configparser.RawConfigParser()
-        config_obj.read('config.ini')
+        config_obj.read('config.ini', encoding='utf-8')
         config_str = config_obj['NexusPHP']['config']
 
     configs = eval(config_str)
