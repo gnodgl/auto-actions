@@ -1,5 +1,6 @@
 import json
 import re
+from cloudscraper import create_scraper
 from json.decoder import JSONDecodeError
 
 from auto_sign.config import generateConfig
@@ -92,7 +93,8 @@ def signin(session, url, name):
         headers = {'Accept': 'application/json'}
         session.headers.update(headers)
         # print(session.headers)
-        with session.get(attendance_url) as res:
+        session2 = create_scraper(session)
+        with session2.get(attendance_url) as res:
             try:
                 msg = json.loads(res.text.encode('utf-8').decode('unicode-escape')).get('msg')
             except JSONDecodeError:
