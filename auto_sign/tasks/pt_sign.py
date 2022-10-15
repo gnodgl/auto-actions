@@ -99,7 +99,7 @@ def signin(session, url, name):
                 msg = res.text
             r = re.compile(r'签到成功')
             r1 = re.compile(r'已经签到')
-            # print(msg)
+            print(msg)
             if r.search(msg) and r1.search(msg) is None:
                 tip = ' 签到成功'
             elif r1.search(msg):
