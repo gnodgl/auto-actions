@@ -4,6 +4,8 @@
 name: auto_sign_pt
 
 on:
+  watch:
+    types: [ started ]
   push:
     branches: [master]
   pull_request:

@@ -1,6 +1,8 @@
 name: 'auto_sign_tieba'
 
 on:
+  watch:
+    types: [ started ]
   push:
     branches:
       - master
