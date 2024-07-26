@@ -20,6 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: GetTime
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S CST')"
+
       - name: Set up Python 3.8
         uses: actions/setup-python@v4
         with:
