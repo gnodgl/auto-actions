@@ -4,6 +4,8 @@
 name: pt_say_thanks
 
 on:
+  watch:
+    types: [ started ]
   push:
     branches: [master]
   pull_request:
@@ -16,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python 3.8
         uses: actions/setup-python@v4
@@ -32,8 +34,9 @@ jobs:
           CONFIG: ${{ secrets.CONFIG }}
 
       - name: Add & Commit
-        uses: EndBug/add-and-commit@v4.4.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          add: 'config.ini'
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add ./config.ini
+          git commit -am "generated at ${{ steps.date.outputs.date }}"
+          git push -f origin master
