@@ -156,6 +156,7 @@ def signin_discuz_ksu(session, url, name):
     hash_url = url + "/plugin.php?id=k_misign:sign"
     with session.get(hash_url) as hashurl:
         h = re.compile(r'name="formhash" value="(.*?)"')
+        print(hashurl.text)
         formhash = h.search(hashurl.text).group(1)
     data = {"formhash": formhash, "format": "empty"}
     with session.post(attendance_url, data) as res:
